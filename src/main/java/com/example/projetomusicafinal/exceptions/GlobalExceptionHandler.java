@@ -1,8 +1,9 @@
 package com.example.projetomusicafinal.exceptions;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.example.projetomusicafinal.models.Banda;
 import com.example.projetomusicafinal.services.BandaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -12,11 +13,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler{
+
     private final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @Autowired

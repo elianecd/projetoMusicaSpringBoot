@@ -36,8 +36,7 @@ public class AlbumService {
 
     public Album save(Album album) {
         return albumRepository.save(album);
-    } //é responsável por salvar ou atualizar um objeto Album no banco de dados. Ele recebe um objeto Album como parâmetro
-    // e passa esse objeto para o método save do AlbumRepository.
+    }
 
     public Page<Album> findAllByBanda(Banda banda, Pageable pageable) {
         return albumRepository.findAllByBanda(banda, pageable);

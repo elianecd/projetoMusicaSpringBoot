@@ -1,4 +1,4 @@
-package com.example.projetomusicafinal.security;
+package com.example.projetomusicafinal.infra.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,5 +46,4 @@ public class SecurityConfiguration {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(); //tbm chamando do proprio spring security
     }
-
 }

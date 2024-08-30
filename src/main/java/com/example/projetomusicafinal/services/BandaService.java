@@ -33,8 +33,7 @@ public class BandaService { //é a classe de serviço que contém a lógica de n
             throw new BandaAlreadyExistsException("A banda com o nome " + banda.getNome() + " já existe.");
         }
         return bandaRepository.save(banda);
-    } //Quando chamamos o método save do JpaRepository, ele insere a entidade no banco de dados se ela ainda não existir,
-    // ou atualiza a entidade existente se ela já existir.
+    }
 
     public Banda findById(Long idBanda) {
         return bandaRepository.findById(idBanda).orElse(null);

@@ -20,6 +20,7 @@ import java.util.Locale;
 @RestController
 @RequestMapping("/album")
 public class AlbumController {
+
     Locale enUS = new Locale("en", "US");
 
     @Autowired
@@ -34,15 +35,15 @@ public class AlbumController {
     @PostMapping("/novo-registro")
     public ResponseEntity<String> createAlbum(@Valid @RequestBody AlbumDTO albumDTO) {
 
-        if (albumDTO.getNome() == null || albumDTO.getResumo() == null || albumDTO.getBandaId() == null) {
+        if (albumDTO.nome() == null || albumDTO.resumo() == null || albumDTO.bandaId() == null) {
             return new ResponseEntity<>("Os campos nome, resumo e banda_id são obrigatórios.", HttpStatus.BAD_REQUEST);
         }
 
         Album album = new Album();
-        album.setNome(albumDTO.getNome());
-        album.setResumo(albumDTO.getResumo());
+        album.setNome(albumDTO.nome());
+        album.setResumo(albumDTO.resumo());
 
-        Banda banda = bandaService.findById(albumDTO.getBandaId());
+        Banda banda = bandaService.findById(albumDTO.bandaId());
 
         if (banda == null) {
             return new ResponseEntity<>("Banda não encontrada.", HttpStatus.BAD_REQUEST);
@@ -84,5 +85,4 @@ public class AlbumController {
 
         return new ResponseEntity<>("Avaliação adicionada com sucesso. Média: " + mediaFormatada, HttpStatus.CREATED);
     }
-
 }

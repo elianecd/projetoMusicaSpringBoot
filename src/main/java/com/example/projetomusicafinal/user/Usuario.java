@@ -15,8 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-@Table(name = "UsuarioTable")
-
+@Table(name = "Usuario")
 public class Usuario implements UserDetails {
 
     @Id
@@ -63,5 +62,4 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }

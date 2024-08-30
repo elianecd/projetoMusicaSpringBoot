@@ -1,22 +1,6 @@
 package com.example.projetomusicafinal.dtos;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-//Eh a classe de transferencia de dados, que eh usada para receber os dados da banda do cliente
-public class BandaDTO {
-
-    @NotBlank
-    private String nome;
-
-    @NotBlank
-    private String resumo;
-
+public record BandaDTO(@NotBlank String nome, @NotBlank String resumo) {
 }

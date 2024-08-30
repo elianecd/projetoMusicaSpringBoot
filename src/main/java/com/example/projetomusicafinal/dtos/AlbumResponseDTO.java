@@ -1,12 +1,10 @@
 package com.example.projetomusicafinal.dtos;
 
-import com.example.projetomusicafinal.models.Musica;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collections;
 import java.util.List;
 
 @Getter

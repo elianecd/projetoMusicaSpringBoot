@@ -10,12 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BandaResponseDTO {
-
     private Long id;
     private String nome;
     private String resumo;
     private Double media;
-
 }
 
 

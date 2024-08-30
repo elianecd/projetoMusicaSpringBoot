@@ -11,9 +11,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor //gera automaticamente um construtor com todos os campos da classe como argumentos.
 @NoArgsConstructor //gera automaticamente um construtor padrão sem argumentos.
-@Table(name = "BandaTable")
-
+@Table(name = "Banda")
 public class Banda {
+
     @Id //marca o campo id como a chave primária da entidade.
     @GeneratedValue(strategy = GenerationType.IDENTITY) //especifica que o valor do campo id será gerado automaticamente pelo banco de dados usando uma estratégia de auto-incremento.
     private Long id;

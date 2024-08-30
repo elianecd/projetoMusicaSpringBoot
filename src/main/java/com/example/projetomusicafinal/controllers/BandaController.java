@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/bandas")
 public class BandaController {
+
     Locale enUS = new Locale("en", "US");
 
     @Autowired
@@ -41,14 +42,14 @@ public class BandaController {
     @PostMapping("/novo-registro")
     public ResponseEntity<String> createBanda(@Valid @RequestBody BandaDTO bandaDTO) {
 
-        if (bandaDTO.getNome() == null || bandaDTO.getResumo() == null) {
+        if (bandaDTO.nome() == null || bandaDTO.resumo() == null) {
             return new ResponseEntity<>("Nome e resumo são obrigatórios.", HttpStatus.BAD_REQUEST);
         }
 
         Banda banda = new Banda(); //A nova instância da classe Banda representa uma nova linha na tabela do banco de
         // dados onde as informações da banda serão armazenadas.
-        banda.setNome(bandaDTO.getNome());
-        banda.setResumo(bandaDTO.getResumo());
+        banda.setNome(bandaDTO.nome());
+        banda.setResumo(bandaDTO.resumo());
         bandaService.createBanda(banda);
         return new ResponseEntity<>("Banda " + banda.getNome() + ", " + banda.getResumo() + " criada com sucesso.", HttpStatus.CREATED);
     }

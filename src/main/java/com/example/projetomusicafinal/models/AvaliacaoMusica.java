@@ -11,8 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "Avaliacao_Musica_Table")
-
+@Table(name = "Avaliacao_Musica")
 public class AvaliacaoMusica {
 
     @Id
@@ -24,5 +23,4 @@ public class AvaliacaoMusica {
 
     @Column(name = "nota")
     private Integer nota;
-
 }

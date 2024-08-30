@@ -1,7 +1,7 @@
 package com.example.projetomusicafinal.controllers;
 
 import com.example.projetomusicafinal.repositories.UserRepository;
-import com.example.projetomusicafinal.security.TokenService;
+import com.example.projetomusicafinal.infra.security.TokenService;
 import com.example.projetomusicafinal.user.AuthenticationDTO;
 import com.example.projetomusicafinal.user.LoginResponseDTO;
 import com.example.projetomusicafinal.user.RegisterDTO;
@@ -34,7 +34,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-
         try {
             var usernamePassword = new UsernamePasswordAuthenticationToken(data.username(), data.password());
             var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -49,7 +48,6 @@ public class AuthenticationController {
     
     @PostMapping("/novo-registro")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
-
         if (this.userRepository.findByUsername(data.username()) != null) return ResponseEntity.badRequest().body("Usuário já existe.");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());

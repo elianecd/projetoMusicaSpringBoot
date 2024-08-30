@@ -13,6 +13,7 @@ import java.util.List;
 @Getter
 @Service
 public class MusicaService {
+
     private double media;
 
     @Autowired
@@ -24,9 +25,7 @@ public class MusicaService {
             throw new MusicaAlreadyExistsException("A musica " + musica.getNome() + " já existe no album " + musica.getAlbum().getNome() + " da banda " + musica.getBanda().getNome() + ".");
         }
         return musicaRepository.save(musica);
-    }//aqui estou criando uma variavel do tipo Musica e salvando ela no banco de dados, então eu retorno para o
-    //musicaRepository que é o repositorio da musica, pois o repositorio é responsavel por salvar ou atualizar um objeto
-    //Musica no banco de dados. Ele recebe um objeto Musica como parâmetro e passa esse objeto para o método save do MusicaRepository.
+    }
 
     public Musica findById(Long musicaId){
         return musicaRepository.findById(musicaId).orElse(null);

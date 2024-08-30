@@ -11,8 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor //gera automaticamente um construtor com todos os campos da classe como argumentos.
 @NoArgsConstructor
-@Table(name = "Avaliacao_Album_Table")
-
+@Table(name = "Avaliacao_Album")
 public class AvaliacaoAlbum {
 
     @Id
@@ -24,5 +23,4 @@ public class AvaliacaoAlbum {
 
     @Column(name = "nota")
     private Integer nota;
-
 }

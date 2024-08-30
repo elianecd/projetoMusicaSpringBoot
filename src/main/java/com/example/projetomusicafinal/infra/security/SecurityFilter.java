@@ -1,4 +1,4 @@
-package com.example.projetomusicafinal.security;
+package com.example.projetomusicafinal.infra.security;
 
 import com.example.projetomusicafinal.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
@@ -24,6 +24,7 @@ import java.io.IOException;
 @Setter
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
+
     private final HandlerExceptionResolver handlerExceptionResolver;
 
     @Autowired
@@ -65,5 +66,4 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (authHeader == null) return null;
         return authHeader.replace("Bearer ", "");
     }
-
 }

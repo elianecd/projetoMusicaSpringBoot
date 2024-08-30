@@ -58,7 +58,7 @@ public class MusicaController {
             musica.setAlbum(album);
             musica.setBanda(album.getBanda());
 
-            musicaRepository.save(musica);
+            musicaService.createMusica(musica);
 
             albumService.updateDuracaoTotal(album, musica.getDuracao()); //atualizar a duração total do álbum associado à música.
 
@@ -102,7 +102,5 @@ public class MusicaController {
         } catch (RuntimeException exception) {
             throw new RuntimeException("Não foi possível avaliar a música.", exception);
         }
-
     }
 }
-
