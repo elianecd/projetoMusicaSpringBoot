@@ -1,5 +1,6 @@
 package com.example.projetomusica.services;
 
+import com.example.projetomusica.exceptions.AlbumAlreadyExistsException;
 import com.example.projetomusica.models.Album;
 import com.example.projetomusica.models.AvaliacaoAlbum;
 import com.example.projetomusica.models.Banda;
@@ -22,6 +23,10 @@ public class AlbumService {
     private AlbumRepository albumRepository;
 
     public Album createAlbum(Album album) {
+        Album existingAlbum = albumRepository.findByNomeAndBanda(album.getNome(), album.getBanda());
+        if (existingAlbum != null) {
+            throw new AlbumAlreadyExistsException("Um álbum com o nome " + album.getNome() + " já existe para esta banda.");
+        }
         return albumRepository.save(album);
     }
 
@@ -31,8 +36,7 @@ public class AlbumService {
 
     public Album save(Album album) {
         return albumRepository.save(album);
-    } //é responsável por salvar ou atualizar um objeto Album no banco de dados. Ele recebe um objeto Album como parâmetro
-    // e passa esse objeto para o método save do AlbumRepository.
+    }
 
     public Page<Album> findAllByBanda(Banda banda, Pageable pageable) {
         return albumRepository.findAllByBanda(banda, pageable);
@@ -52,5 +56,4 @@ public class AlbumService {
         album.setDuracaoTotal(duracaoTotal);
         return albumRepository.save(album);
     }
-
 }

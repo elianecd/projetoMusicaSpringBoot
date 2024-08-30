@@ -1,5 +1,6 @@
 package com.example.projetomusica.services;
 
+import com.example.projetomusica.exceptions.MusicaAlreadyExistsException;
 import com.example.projetomusica.models.AvaliacaoMusica;
 import com.example.projetomusica.models.Musica;
 import com.example.projetomusica.repositories.MusicaRepository;
@@ -18,10 +19,12 @@ public class MusicaService {
     private MusicaRepository musicaRepository;
 
     public Musica createMusica(Musica musica){
+        Musica existingMusica = musicaRepository.findByNomeAndAlbumAndBanda(musica.getNome(), musica.getAlbum(), musica.getBanda());
+        if (existingMusica != null) {
+            throw new MusicaAlreadyExistsException("A musica " + musica.getNome() + " já existe no album " + musica.getAlbum().getNome() + " da banda " + musica.getBanda().getNome() + ".");
+        }
         return musicaRepository.save(musica);
-    }//aqui estou criando uma variavel do tipo Musica e salvando ela no banco de dados, então eu retorno para o
-    //musicaRepository que é o repositorio da musica, pois o repositorio é responsavel por salvar ou atualizar um objeto
-    //Musica no banco de dados. Ele recebe um objeto Musica como parâmetro e passa esse objeto para o método save do MusicaRepository.
+    }
 
     public Musica findById(Long musicaId){
         return musicaRepository.findById(musicaId).orElse(null);
@@ -35,5 +38,4 @@ public class MusicaService {
         }
         this.media = soma / avaliacoes.size();
     }
-
 }

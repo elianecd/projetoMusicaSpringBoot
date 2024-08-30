@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface AvaliacaoMusicaRepository extends JpaRepository<AvaliacaoMusica, Long> {
     List<AvaliacaoMusica> findByMusicaId(Long id);
-
 }

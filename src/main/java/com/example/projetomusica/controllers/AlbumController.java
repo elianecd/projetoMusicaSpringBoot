@@ -34,18 +34,18 @@ public class AlbumController {
     @PostMapping("/novo-registro")
     public ResponseEntity<String> createAlbum(@Valid @RequestBody AlbumDTO albumDTO) {
 
-        if (albumDTO.getNome() == null || albumDTO.getResumo() == null || albumDTO.getBandaId() == null) {
-            return new ResponseEntity<>("Os campos nome, resumo e banda_id são obrigatórios", HttpStatus.BAD_REQUEST);
+        if (albumDTO.nome() == null || albumDTO.resumo() == null || albumDTO.bandaId() == null) {
+            return new ResponseEntity<>("Os campos nome, resumo e banda_id são obrigatórios.", HttpStatus.BAD_REQUEST);
         }
 
         Album album = new Album();
-        album.setNome(albumDTO.getNome());
-        album.setResumo(albumDTO.getResumo());
+        album.setNome(albumDTO.nome());
+        album.setResumo(albumDTO.resumo());
 
-        Banda banda = bandaService.findById(albumDTO.getBandaId());
+        Banda banda = bandaService.findById(albumDTO.bandaId());
 
         if (banda == null) {
-            return new ResponseEntity<>("Banda não encontrada", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Banda não encontrada.", HttpStatus.BAD_REQUEST);
         }
         album.setBanda(banda);
 
@@ -59,13 +59,13 @@ public class AlbumController {
         Integer nota = request.getNota();
 
         if (nota < 0 || nota > 10) {
-            return new ResponseEntity<>("Valor inválido", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Valor inválido.", HttpStatus.BAD_REQUEST);
         }
 
         Album album = albumService.findById(id);
 
         if (album == null) {
-            return new ResponseEntity<>("Álbum não encontrado", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Álbum não encontrado.", HttpStatus.BAD_REQUEST);
         }
 
         AvaliacaoAlbum avaliacao = new AvaliacaoAlbum();
@@ -80,12 +80,8 @@ public class AlbumController {
         album.setMedia(albumService.getMedia());
         albumService.save(album);
 
-        // Calcular a média das avaliações
-        //double media = album.getMedia();
-
         String mediaFormatada = String.format(enUS,"%.2f", album.getMedia());
 
         return new ResponseEntity<>("Avaliação adicionada com sucesso. Média: " + mediaFormatada, HttpStatus.CREATED);
     }
-
 }

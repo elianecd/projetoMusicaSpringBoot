@@ -5,9 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class AvaliacaoRequest {
-
     private Integer nota;
-
 }

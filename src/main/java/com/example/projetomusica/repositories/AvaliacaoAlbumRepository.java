@@ -8,7 +8,5 @@ import java.util.List;
 
 @Repository
 public interface AvaliacaoAlbumRepository extends JpaRepository<AvaliacaoAlbum, Long> {
-
     List<AvaliacaoAlbum> findAllByAlbumId(Long albumId);
-
 }

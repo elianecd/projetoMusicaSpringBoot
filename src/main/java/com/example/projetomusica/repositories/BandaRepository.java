@@ -8,7 +8,6 @@ import org.springframework.data.domain.Pageable;
 
 @Repository
 public interface BandaRepository extends JpaRepository<Banda, Long> {
-    //Banda findByNome(String nome);
     Page<Banda> findAll(Pageable pageable);
-
+    Banda findByNome(String nome);
 }

@@ -11,8 +11,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor //gera automaticamente um construtor com todos os campos da classe como argumentos.
 @NoArgsConstructor //gera automaticamente um construtor padrão sem argumentos.
-@Table(name = "BandaTable")
-
+@Table(name = "Banda")
 public class Banda {
 
     @Id //marca o campo id como a chave primária da entidade.
@@ -27,8 +26,4 @@ public class Banda {
 
     @Column(name = "media")
     private Double media = 0.0;
-
-    @Transient
-    private Integer nota;
-
 }

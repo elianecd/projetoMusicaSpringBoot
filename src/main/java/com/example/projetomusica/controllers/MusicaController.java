@@ -1,7 +1,10 @@
 package com.example.projetomusica.controllers;
 
 import com.example.projetomusica.dtos.MusicaDTO;
-import com.example.projetomusica.models.*;
+import com.example.projetomusica.models.Album;
+import com.example.projetomusica.models.AvaliacaoMusica;
+import com.example.projetomusica.models.AvaliacaoRequest;
+import com.example.projetomusica.models.Musica;
 import com.example.projetomusica.repositories.AvaliacaoMusicaRepository;
 import com.example.projetomusica.repositories.MusicaRepository;
 import com.example.projetomusica.services.AlbumService;
@@ -10,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
@@ -33,34 +37,36 @@ public class MusicaController {
     private AvaliacaoMusicaRepository avaliacaoMusicaRepository;
 
     @PostMapping("/novo-registro")
-    public ResponseEntity<String> createMusica(@Valid @RequestBody MusicaDTO musicaDTO) {
+    @Transactional
+    public ResponseEntity createMusica(@Valid @RequestBody MusicaDTO musicaDTO) {
 
-        if (musicaDTO.getNome() == null || musicaDTO.getResumo() == null || musicaDTO.getDuracao() == null || musicaDTO.getAlbumId() == null) {
+        if (musicaDTO.nome() == null || musicaDTO.resumo() == null || musicaDTO.duracao() == null || musicaDTO.albumId() == null) {
             return new ResponseEntity<>("Os campos nome, resumo, duração e album_id são obrigatórios", HttpStatus.BAD_REQUEST);
         }
 
-        Musica musica = new Musica();
-        musica.setNome(musicaDTO.getNome());
-        musica.setResumo(musicaDTO.getResumo());
-        musica.setDuracao(musicaDTO.getDuracao());
+        try {
+            Album album = albumService.findById(musicaDTO.albumId());
+            if (album == null) {
+                return  ResponseEntity.badRequest().body("Álbum não encontrado.");
 
-        Album album = albumService.findById(musicaDTO.getAlbumId());
-        //aqui criei uma instancia album do tipo Album e chamei o metodo findById que está no AlbumService.
-        //Esse método recebe um id como parâmetro e retorna um objeto Album que corresponde ao id passado.
-        //musicaDTO.getAlbumId() está pegando o id do album do objeto musicaDTO que foi passado como parâmetro.
+            }
 
-        if (album == null) {
-            return new ResponseEntity<>("Album não encontrado", HttpStatus.BAD_REQUEST);
+            Musica musica = new Musica();
+            musica.setNome(musicaDTO.nome());
+            musica.setResumo(musicaDTO.resumo());
+            musica.setDuracao(musicaDTO.duracao());
+            musica.setAlbum(album);
+            musica.setBanda(album.getBanda());
+
+            musicaService.createMusica(musica);
+
+            albumService.updateDuracaoTotal(album, musica.getDuracao()); //atualizar a duração total do álbum associado à música.
+
+            return ResponseEntity.ok().body("Música " + musica.getNome() + " cadastrada com sucesso no álbum " + album.getNome() + ".");
+
+        } catch (RuntimeException exception) {
+            throw new RuntimeException("Não foi possível cadastrar a música.", exception);
         }
-
-        musica.setAlbum(album); //está associando a música a um álbum específico.
-
-        musica.setBanda(album.getBanda()); //para associar a música à banda que é dona do álbum.
-
-        musicaService.createMusica(musica); //criar uma nova música no banco de dados usando o serviço de musica (MusicaService).
-        albumService.updateDuracaoTotal(album, musica.getDuracao()); //atualizar a duração total do álbum associado à música.
-
-        return new ResponseEntity<>("Música " + musica.getNome() + ", " + musica.getResumo() + " do álbum " + musica.getAlbum().getNome() + " criada com sucesso.", HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/avaliar-musica")
@@ -75,7 +81,7 @@ public class MusicaController {
         try {
             Musica musica = musicaService.findById(id);
             if (musica == null) {
-                return new ResponseEntity<>("Música não encontrada", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>("Música não encontrada.", HttpStatus.NOT_FOUND);
             }
 
             AvaliacaoMusica avaliacaoMusica = new AvaliacaoMusica();
@@ -94,9 +100,7 @@ public class MusicaController {
             return new ResponseEntity<>("Música " + musica.getNome() + " avaliada com sucesso com nota " + nota + ". Média atual: " + mediaFormatada, HttpStatus.CREATED);
 
         } catch (RuntimeException exception) {
-            throw new RuntimeException("Não foi possível avaliar a música", exception);
+            throw new RuntimeException("Não foi possível avaliar a música.", exception);
         }
-
     }
-
 }
